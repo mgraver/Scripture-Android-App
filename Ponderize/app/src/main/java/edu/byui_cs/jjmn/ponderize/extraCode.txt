@@ -1,0 +1,41 @@
+
+The following code is to be placed in MainActivity.java after the declaration of omniList, proList, and memList.
+It reads the info in the preloadedScriptures file in assets into a string, and then writes that string to a
+file in internal storage that is then called by the onStart to load all of the preloaded scriptures into omniList.
+
+    /*
+    * Load the pre-loaded scriptures from the res file.
+    */
+
+    StringBuilder returnString = new StringBuilder();
+    InputStream fIn = null;
+    InputStreamReader isr = null;
+    BufferedReader input = null;
+    String line = "";
+    try {
+      fIn = getResources().getAssets()
+              .open("preloadedScriptures", MODE_WORLD_READABLE);
+      isr = new InputStreamReader(fIn);
+      input = new BufferedReader(isr);
+
+      while ((line = input.readLine()) != null) {
+        returnString.append(line);
+      }
+    } catch (Exception e) {
+      e.getMessage();
+    }
+
+    // The file path of the file in the internal directory with the pre-loaded scriptures
+      File saveFile = new File(getFilesDir(), "scriptureFile.json");
+
+      //Save list to saveFile.
+      FileWriter writer;
+      try {
+        writer = new FileWriter (saveFile);
+        writer.write (fileString);
+        writer.close ();
+      } catch (Exception e ) {
+        e.printStackTrace ();
+      }
+
+    // end code
